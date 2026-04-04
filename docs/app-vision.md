@@ -13,14 +13,14 @@ A high trust lending service that incentivizes lending and prevents theft.
 # Key features
 
 Simple mobile-friendly multi-page design with:
-A landing page that displays an explore section with popular listings nearby and a search bar to look for specific items
-A page where lenders can fill in a form so they can list their item with a title, a description, call out a price, and list the location of the item
-A page to manage your account
+- A landing page that displays an explore section with popular listings nearby and a search bar to look for specific items
+- A page where lenders can fill in a form so they can list their item with a title, a description, call out a price, and list the location of the item
+- A page to manage your account
 
 Simple operations:
-List item, update item
-Search for item
-Review user that you interacted with
+- List item, update item
+- Search for item
+- Review user that you interacted with
 
 Recording-keeping:
 Any changes made to listings should be reflected in the explore page
