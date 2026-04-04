@@ -1,52 +1,41 @@
 # Name
 
-- The app is called TeamTime.
+- The app is called LocalLender.
 
 # Users
 
-- Users are software development teams who do mob programming with drivers and navigators.
+- Users are any people who have things that they are willing to lend to others, either for free or for a cost. The users are also people who want to borrow things.
 
 # Value proposition
 
-An easy to use rotation timer for managing and tracking mob programming sessions.
+A high trust lending service that incentivizes lending and prevents theft.
 
 # Key features
 
-Simple mobile-friendly one-screen design with the app name at the top, and below it:
-  - large countdown timer, defaulting to 10 minutes, but adjustable at the start of each session,
-  - a single start/pause buttonm
-  - the team members, shuffled at the start of each session, with the first name highlighted
+Simple mobile-friendly multi-page design with:
+A landing page that displays an explore section with popular listings nearby and a search bar to look for specific items
+A page where lenders can fill in a form so they can list their item with a title, a description, call out a price, and list the location of the item
+A page to manage your account
+
 Simple operations:
-  - Tap a name to skip or include that team member in the rotation.
-  - Tap start to start the timer, tap again to pause it.
-  - When one minute is left, timer beeps and starts flashing.
-  - When time is up, timer sounds an alarm, resets time, rotates to the next team member, and waits for start.
+List item, update item
+Search for item
+Review user that you interacted with
+
 Recording-keeping:
-  - At end of each turn, the app logs to the console the current time, rotation duration setting, the driver, and the navigators.
+Any changes made to listings should be reflected in the explore page
 
 # Example scenario
 
 Here is an example session.
 
-- Alice, Bob, Cathy, and Dave are a team of developers.
-- Alice, Cathy, and Dave meet to do mob programming for 90 minutes.
-- Alice starts the app on her phone. 
-- It shows a countdown timer, set to 10 minutes, a start button, and a shuffled list of team member names with checkmarks.
-- The first name is highlighted. It happens to be Bob.
-- Alice taps Bob's nam because he is not there. The highlight moves to Dave.
-- Dave sits at the keyboard and starts the timer. He begins entering code suggested by the other team members. 
-- Pizza arrives, so Dave stops the timer and grabs a slice. After a few minutes, he starts the timer to continue his turn.
-- A beep at 9 minutes warns the team is almost time to rotate.
-- Whem time goes to zero, an alarm sounds. Dave stops. The highlight moves to Cathy
-- Cathy taps the start button to begin her turn.
+- Maya wants to borrow a drill. 
+- She opens the app on her phone, finds a nearby drill, and sends a quick request.
+- A neighbor accepts her request and Maya picks up the drill, and pays a small fee.
+- After use, Maya returns the drill.
 
 # Coding notes
 
-- Use setInterval() to implement the timer.
-- Use AudioContext to play sounds.
-- Define and import a MockAudioContext class for unit testing sounds. 
+
 
 # Testing notes
-- Define unit tests for skipping team members in the rotation.
-- Define unit tests for when Start and Stop should appear.
-- Define unit tests for when sounds should happen.
