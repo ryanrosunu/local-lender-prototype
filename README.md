@@ -1,83 +1,80 @@
-# React + TypeScript + Vite + Vitest
+# LocalLender
 
-A starter template for building React 19+ apps in TypeScript with Vite and TailwindCSS 4. Includes Vitest for unit testing and
-a hefty .gitignore file. React compiler enabled.
+A high trust lending service that incentivizes lending and prevents theft.
 
-# Requirements
+**Live site:** [cs394locallender.web.app](https://cs394locallender.web.app/)
 
-Node 22 or greater.
+## About
 
-## Usage
+LocalLender connects people who have things to lend with people who want to borrow them — either for free or for a small fee.
 
-To create a new app, run the following commands in your terminal, replacing `your-app-name` with the name of your app.
+### Key features
 
-```
-npx gitpick criesbeck/react-copilot your-app-name
-cd your-app-name
+- **Explore** — browse popular listings nearby and search for specific items
+- **List an item** — add a title, description, price per day, location, and photo
+- **Account** — manage your listings and view your trust profile
+- **Reviews** — leave reviews for users you've interacted with
+
+### Example
+
+Maya wants to borrow a drill. She opens the app, finds a nearby listing, and sends a request. A neighbor accepts, Maya picks up the drill and pays a small fee. After use, she returns it.
+
+## Tech stack
+
+- React 19 + TypeScript
+- Vite + TailwindCSS 4
+- Firebase (Auth via Google, Firestore, Hosting)
+- Vitest for unit testing
+
+## Local development
+
+Requires Node 22+.
+
+```bash
 npm install
+npm run dev
 ```
 
-## Test
+Create a `.env` file in the project root with your Firebase config:
 
-There is no code to test. This is a shell for writing an app vision for CoPilot to fill in.
+```
+VITE_FIREBASE_API_KEY=...
+VITE_FIREBASE_AUTH_DOMAIN=...
+VITE_FIREBASE_PROJECT_ID=...
+VITE_FIREBASE_STORAGE_BUCKET=...
+VITE_FIREBASE_MESSAGING_SENDER_ID=...
+VITE_FIREBASE_APP_ID=...
+```
+
+## Firebase setup
+
+This app uses Firebase for authentication and data storage. To run it locally you'll need a Firebase project with the following enabled:
+
+- **Authentication** — Google sign-in provider
+- **Firestore Database** — created in test mode
+
+### Seeding initial data
+
+`src/seed.ts` contains a `seedFirestore()` function that populates Firestore with the starter listings and reviews. To run it once:
+
+1. Temporarily add these two lines to `src/main.tsx`:
+   ```ts
+   import { seedFirestore } from './seed';
+   seedFirestore();
+   ```
+2. Run `npm run dev` and open the app
+3. Remove those two lines — the data stays in Firestore permanently
 
 ## Scripts
 
-**package.json** defines the following scripts:
-
-| Script           | Description                                         |
-| -----------------| --------------------------------------------------- |
-| npm run dev      | Runs the app in the development mode.               |
-| npm run build    | Builds the app for production to the `dist` folder. |
-| npm run serve    | Serves the production build from the `dist` folder. |
-| npm test         | Starts a Jest-like test loop                        |
-| npm run coverage | Runs the tests, displays code coverage results      |
-
-
-## Git
-
-If everything is working, set up [your local and remote repositories](https://docs.github.com/en/get-started/importing-your-projects-to-github/importing-source-code-to-github/adding-locally-hosted-code-to-github#adding-a-local-repository-to-github-using-git).
-
-## Folder Structure
-
-```
-your-app-name
-|-- .github
-|   └── copilot-instructions.md
-|-- docs
-|   └── app-vision.md
-├── public
-│   └── robots.txt
-│   ├── vite.svg
-└── src
-    ├── index.css
-    ├── main.tsx
-    ├── vite-env.d.ts
-├── .gitignore
-├── eslint.config.js
-├── index.html
-├── package.json
-├── README.md
-├── tsconfig.app.json
-├── tsconfig.son
-├── tsconfig.node.json
-├── vite.config.ts
-```
-
-## Issues
-
-Using TypeScript 5 and ESlint 9 until typescript-eslint and react hook plugins support TS 6 and ESL 10.
-
-## Credits
-
-Inspired by [SafdarJamal/vite-template-react](https://github.com/SafdarJamal/vite-template-react).
-Expanded to include Vitest and some sample tests.
-
-Thanks to Neeraj Dalal for [gitpick](https://github.com/nrjdalal/gitpick).
-
-Gitignore file created with [the Toptal tool](https://www.toptal.com/developers/gitignore/api/react,firebase,visualstudiocode,macos,windows).
-
+| Script | Description |
+| --- | --- |
+| `npm run dev` | Start dev server |
+| `npm run build` | Build for production |
+| `npm run preview` | Preview production build |
+| `npm test` | Run tests with UI |
+| `npm run coverage` | Run tests with coverage report |
 
 ## License
 
-This project is licensed under the terms of the [MIT license](./LICENSE).
+[MIT](./LICENSE)

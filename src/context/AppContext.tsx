@@ -1,143 +1,100 @@
 import {
   createContext,
   useContext,
+  useEffect,
   useMemo,
   useState,
   type PropsWithChildren,
 } from 'react';
+import {
+  collection,
+  onSnapshot,
+  addDoc,
+  updateDoc,
+  deleteDoc,
+  doc,
+} from 'firebase/firestore';
+import { onAuthStateChanged, type User } from 'firebase/auth';
+import { auth, db, signInWithGoogle, signOutUser } from '../firebase';
 import type { Listing, ListingFormValues } from '../types/listing';
 import type { Review, ReviewFormValues } from '../types/review';
 
 interface AppContextValue {
+  currentUser: User | null;
   currentUserName: string;
+  signIn: () => Promise<void>;
+  signOut: () => Promise<void>;
   listings: Listing[];
   reviews: Review[];
   addListing: (values: ListingFormValues) => void;
   updateListing: (listingId: string, values: ListingFormValues) => void;
-  updateListingAvailability: (listingId: string) => void;
+  updateListingAvailability: (listingId: string, current: boolean) => void;
   deleteListing: (listingId: string) => void;
   addReview: (values: ReviewFormValues) => void;
 }
 
-const initialListings: Listing[] = [
-  {
-    id: 'listing-1',
-    ownerName: 'Jordan',
-    title: 'Cordless Drill',
-    description: 'Compact drill with charger and two batteries.',
-    pricePerDay: 8,
-    locationText: 'Near Hyde Park',
-    category: 'Tools',
-    isAvailable: true,
-    imageUrl:
-      'https://images.unsplash.com/photo-1504148455328-c376907d081c?auto=format&fit=crop&w=900&q=80',
-  },
-  {
-    id: 'listing-2',
-    ownerName: 'Priya',
-    title: 'Basketball',
-    description: 'Indoor-outdoor basketball in great condition.',
-    pricePerDay: 4,
-    locationText: 'Near South Loop',
-    category: 'Sports',
-    isAvailable: true,
-    imageUrl:
-      'https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=900&q=80',
-  },
-  {
-    id: 'listing-3',
-    ownerName: 'Alex',
-    title: 'Projector',
-    description: 'Portable projector with HDMI cable included.',
-    pricePerDay: 15,
-    locationText: 'Near Pilsen',
-    category: 'Electronics',
-    isAvailable: false,
-    imageUrl:
-      'https://images.unsplash.com/photo-1528395874238-34ebe249b3f2?auto=format&fit=crop&w=900&q=80',
-  },
-];
-
-const initialReviews: Review[] = [
-  {
-    id: 'review-1',
-    reviewerName: 'Maya',
-    revieweeName: 'Jordan',
-    rating: 5,
-    comment: 'Easy pickup and return. The drill worked perfectly.',
-  },
-];
-
 const AppContext = createContext<AppContextValue | undefined>(undefined);
 
 export const AppProvider = ({ children }: PropsWithChildren) => {
-  const [listings, setListings] = useState<Listing[]>(initialListings);
-  const [reviews, setReviews] = useState<Review[]>(initialReviews);
-  const currentUserName = 'Maya';
+  const [listings, setListings] = useState<Listing[]>([]);
+  const [reviews, setReviews] = useState<Review[]>([]);
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    return onAuthStateChanged(auth, setCurrentUser);
+  }, []);
+
+  useEffect(() => {
+    return onSnapshot(collection(db, 'listings'), (snapshot) => {
+      setListings(
+        snapshot.docs.map((d) => ({ id: d.id, ...d.data() } as Listing))
+      );
+    });
+  }, []);
+
+  useEffect(() => {
+    return onSnapshot(collection(db, 'reviews'), (snapshot) => {
+      setReviews(
+        snapshot.docs.map((d) => ({ id: d.id, ...d.data() } as Review))
+      );
+    });
+  }, []);
+
+  const currentUserName = currentUser?.displayName ?? '';
+
+  const signIn = async () => { await signInWithGoogle(); };
+  const signOut = async () => { await signOutUser(); };
 
   const addListing = (values: ListingFormValues) => {
-    const nextListing: Listing = {
-      id: `listing-${crypto.randomUUID()}`,
+    addDoc(collection(db, 'listings'), {
       ownerName: currentUserName,
-      title: values.title,
-      description: values.description,
-      pricePerDay: values.pricePerDay,
-      locationText: values.locationText,
-      category: values.category,
+      ...values,
       isAvailable: true,
-      imageUrl: values.imageUrl,
-    };
-
-    setListings((current) => [nextListing, ...current]);
+    });
   };
 
   const updateListing = (listingId: string, values: ListingFormValues) => {
-    setListings((current) =>
-      current.map((listing) =>
-        listing.id === listingId
-          ? {
-              ...listing,
-              title: values.title,
-              description: values.description,
-              pricePerDay: values.pricePerDay,
-              locationText: values.locationText,
-              category: values.category,
-              imageUrl: values.imageUrl,
-            }
-          : listing,
-      ),
-    );
+    updateDoc(doc(db, 'listings', listingId), { ...values });
   };
 
-  const updateListingAvailability = (listingId: string) => {
-    setListings((current) =>
-      current.map((listing) =>
-        listing.id === listingId
-          ? { ...listing, isAvailable: !listing.isAvailable }
-          : listing,
-      ),
-    );
+  const updateListingAvailability = (listingId: string, current: boolean) => {
+    updateDoc(doc(db, 'listings', listingId), { isAvailable: !current });
   };
 
   const deleteListing = (listingId: string) => {
-    setListings((current) => current.filter((listing) => listing.id !== listingId));
+    deleteDoc(doc(db, 'listings', listingId));
   };
 
   const addReview = (values: ReviewFormValues) => {
-    const nextReview: Review = {
-      id: `review-${crypto.randomUUID()}`,
-      reviewerName: values.reviewerName,
-      revieweeName: values.revieweeName,
-      rating: values.rating,
-      comment: values.comment,
-    };
-
-    setReviews((current) => [nextReview, ...current]);
+    addDoc(collection(db, 'reviews'), { ...values });
   };
 
   const value = useMemo(
     () => ({
+      currentUser,
       currentUserName,
+      signIn,
+      signOut,
       listings,
       reviews,
       addListing,
@@ -146,7 +103,7 @@ export const AppProvider = ({ children }: PropsWithChildren) => {
       deleteListing,
       addReview,
     }),
-    [listings, reviews],
+    [currentUser, listings, reviews],
   );
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
