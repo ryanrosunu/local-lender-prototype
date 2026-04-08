@@ -1,0 +1,8 @@
+connectorId: local-lender
+generate:
+  javascriptSdk:
+    - outputDir: ../../src/dataconnect
+      package: "@local-lender/dataconnect"
+      packageJsonDir: ../../src/dataconnect
+      react: true
+      angular: false

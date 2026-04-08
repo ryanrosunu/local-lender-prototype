@@ -1,20 +1,24 @@
+export type ItemStatus = 'available' | 'lent' | 'unavailable';
+
 export interface Listing {
   id: string;
-  ownerName: string;
   title: string;
   description: string;
-  pricePerDay: number;
-  locationText: string;
-  category: string;
-  isAvailable: boolean;
+  createdAt: string;
+  status: ItemStatus;
+  price: number;
   imageUrl: string;
+  locationDetails: string;
+  category: string;
+  lenderId: string;
+  lenderName: string;
 }
 
 export interface ListingFormValues {
   title: string;
   description: string;
-  pricePerDay: number;
-  locationText: string;
+  price: number;
+  locationDetails: string;
   category: string;
   imageUrl: string;
 }

@@ -1,0 +1,6 @@
+connectorId: "local-lender"
+generate:
+  javascriptSdk:
+    outputDir: "../../src/dataconnect"
+    package: "@local-lender/dataconnect"
+    packageJSONDir: "../../src/dataconnect"

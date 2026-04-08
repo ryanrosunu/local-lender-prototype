@@ -1,0 +1,119 @@
+query ListItems @auth(level: PUBLIC) {
+  items(orderBy: [{ createdAt: DESC }]) {
+    id
+    title
+    description
+    createdAt
+    status
+    price
+    imageUrl
+    locationDetails
+    category
+    lender {
+      id
+      displayName
+      photoUrl
+    }
+  }
+}
+
+query GetItem($id: UUID!) @auth(level: PUBLIC) {
+  item(id: $id) {
+    id
+    title
+    description
+    createdAt
+    status
+    price
+    imageUrl
+    locationDetails
+    category
+    lender {
+      id
+      displayName
+      photoUrl
+    }
+  }
+}
+
+query ListMyItems @auth(level: USER) {
+  items(where: { lender: { id: { eq_expr: "auth.uid" } } }, orderBy: [{ createdAt: DESC }]) {
+    id
+    title
+    description
+    createdAt
+    status
+    price
+    imageUrl
+    locationDetails
+    category
+  }
+}
+
+query ListIncomingRequests @auth(level: USER) {
+  lendingRequests(
+    where: { item: { lender: { id: { eq_expr: "auth.uid" } } } }
+    orderBy: [{ requestedAt: DESC }]
+  ) {
+    id
+    requestedAt
+    status
+    borrowerNotes
+    startDate
+    endDate
+    item {
+      id
+      title
+    }
+    borrower {
+      id
+      displayName
+    }
+  }
+}
+
+query ListOutgoingRequests @auth(level: USER) {
+  lendingRequests(
+    where: { borrower: { id: { eq_expr: "auth.uid" } } }
+    orderBy: [{ requestedAt: DESC }]
+  ) {
+    id
+    requestedAt
+    status
+    borrowerNotes
+    startDate
+    endDate
+    item {
+      id
+      title
+    }
+  }
+}
+
+query ListMyReviews @auth(level: USER) {
+  reviews(
+    where: { reviewedUser: { id: { eq_expr: "auth.uid" } } }
+    orderBy: [{ createdAt: DESC }]
+  ) {
+    id
+    rating
+    comment
+    createdAt
+    helpful
+    reviewer {
+      id
+      displayName
+    }
+  }
+}
+
+query GetCurrentUser @auth(level: USER) {
+  user(id_expr: "auth.uid") {
+    id
+    displayName
+    email
+    photoUrl
+    location
+    createdAt
+  }
+}

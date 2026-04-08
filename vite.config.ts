@@ -6,6 +6,9 @@ import tailwindcss from '@tailwindcss/vite'
 
 // https://github.com/reactjs/react.dev/issues/8353
 export default defineConfig({
+  resolve: {
+    dedupe: ['firebase', 'react', 'react-dom', '@tanstack/react-query', '@tanstack-query-firebase'],
+  },
   plugins: [
     tailwindcss(),
     react(),
