@@ -7,6 +7,18 @@ interface ListingCardProps {
 }
 
 export const ListingCard = ({ listing, onClick }: ListingCardProps) => {
+  const statusLabel: Record<typeof listing.status, string> = {
+    available: 'Available',
+    lent: 'Lent out',
+    unavailable: 'Unavailable',
+  };
+
+  const statusStyle: Record<typeof listing.status, string> = {
+    available: 'bg-emerald-100 text-emerald-700',
+    lent: 'bg-sky-100 text-sky-700',
+    unavailable: 'bg-amber-100 text-amber-700',
+  };
+
   return (
     <button
       type="button"
@@ -36,26 +48,20 @@ export const ListingCard = ({ listing, onClick }: ListingCardProps) => {
               {listing.category}
             </p>
             <h3 className="mt-1 text-lg font-semibold text-slate-900">{listing.title}</h3>
-            <p className="mt-1 text-sm text-slate-500">Lent by {listing.ownerName}</p>
+            <p className="mt-1 text-sm text-slate-500">Lent by {listing.lenderName}</p>
           </div>
 
-          <span
-            className={`rounded-full px-3 py-1 text-xs font-semibold ${
-              listing.isAvailable
-                ? 'bg-emerald-100 text-emerald-700'
-                : 'bg-amber-100 text-amber-700'
-            }`}
-          >
-            {listing.isAvailable ? 'Available' : 'Unavailable'}
+          <span className={`rounded-full px-3 py-1 text-xs font-semibold ${statusStyle[listing.status]}`}>
+            {statusLabel[listing.status]}
           </span>
         </div>
 
         <p className="mt-4 text-sm leading-6 text-slate-600">{listing.description}</p>
 
         <div className="mt-4 flex items-center justify-between gap-3 text-sm text-slate-600">
-          <span>{listing.locationText}</span>
+          <span>{listing.locationDetails}</span>
           <span className="font-semibold text-slate-900">
-            {formatCurrency(listing.pricePerDay)}/day
+            {formatCurrency(listing.price)}/day
           </span>
         </div>
       </div>

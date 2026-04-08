@@ -1,58 +1,66 @@
-import { useState, type ChangeEvent, type FormEvent } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, type ChangeEvent } from 'react';
+import { Navigate, useNavigate } from 'react-router-dom';
+import { useQueryClient } from '@tanstack/react-query';
+import { useCreateItem } from '../dataconnect/react';
 import { useAppContext } from '../context/AppContext';
 import type { ListingFormValues } from '../types/listing';
 
 const initialValues: ListingFormValues = {
   title: '',
   description: '',
-  pricePerDay: 0,
-  locationText: '',
+  price: 0,
+  locationDetails: '',
   category: 'Tools',
   imageUrl: '',
 };
 
 export const ListItemPage = () => {
-  const { addListing } = useAppContext();
+  const { currentUser, authLoading } = useAppContext();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  const { mutateAsync: createItem, isPending } = useCreateItem();
+
   const [values, setValues] = useState<ListingFormValues>(initialValues);
   const [imagePreview, setImagePreview] = useState('');
+  const [submitError, setSubmitError] = useState('');
 
-  const handleChange = <K extends keyof ListingFormValues>(
-    field: K,
-    value: ListingFormValues[K],
-  ) => {
-    setValues((current) => ({
-      ...current,
-      [field]: value,
-    }));
+  if (authLoading) return null;
+  if (!currentUser) return <Navigate to="/account" replace />;
+
+  const handleChange = <K extends keyof ListingFormValues>(field: K, value: ListingFormValues[K]) => {
+    setValues((current) => ({ ...current, [field]: value }));
   };
 
   const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-
-    if (!file) {
-      return;
-    }
-
+    if (!file) return;
     const reader = new FileReader();
-
     reader.onload = () => {
       const result = typeof reader.result === 'string' ? reader.result : '';
       setImagePreview(result);
       handleChange('imageUrl', result);
     };
-
     reader.readAsDataURL(file);
   };
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: { preventDefault(): void }) => {
     event.preventDefault();
-    addListing({
-      ...values,
-      imageUrl: values.imageUrl || imagePreview,
-    });
-    navigate('/');
+    setSubmitError('');
+    try {
+      await createItem({
+        title: values.title,
+        description: values.description,
+        price: values.price,
+        imageUrl: values.imageUrl || imagePreview || null,
+        locationDetails: values.locationDetails,
+        category: values.category,
+      });
+      await queryClient.invalidateQueries();
+      navigate('/');
+    } catch (err) {
+      console.error('createItem failed:', err);
+      setSubmitError(err instanceof Error ? err.message : 'Failed to create listing. Check the console for details.');
+    }
   };
 
   return (
@@ -60,7 +68,7 @@ export const ListItemPage = () => {
       <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
         <h1 className="text-2xl font-bold text-slate-900">List an item</h1>
         <p className="mt-2 text-sm text-slate-600">
-          Add a title, description, price, photo, and a simple text location. No backend required.
+          Add a title, description, price, photo, and your location.
         </p>
 
         <form onSubmit={handleSubmit} className="mt-6 space-y-4">
@@ -69,9 +77,7 @@ export const ListItemPage = () => {
             <input
               required
               value={values.title}
-              onChange={(event) => {
-                handleChange('title', event.target.value);
-              }}
+              onChange={(e) => handleChange('title', e.target.value)}
               className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3"
               placeholder="Cordless drill"
             />
@@ -83,9 +89,7 @@ export const ListItemPage = () => {
               required
               rows={4}
               value={values.description}
-              onChange={(event) => {
-                handleChange('description', event.target.value);
-              }}
+              onChange={(e) => handleChange('description', e.target.value)}
               className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3"
               placeholder="Lightweight drill with charger included"
             />
@@ -98,10 +102,8 @@ export const ListItemPage = () => {
                 required
                 min={0}
                 type="number"
-                value={values.pricePerDay}
-                onChange={(event) => {
-                  handleChange('pricePerDay', Number(event.target.value));
-                }}
+                value={values.price}
+                onChange={(e) => handleChange('price', Number(e.target.value))}
                 className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3"
               />
             </label>
@@ -110,9 +112,7 @@ export const ListItemPage = () => {
               Category
               <select
                 value={values.category}
-                onChange={(event) => {
-                  handleChange('category', event.target.value);
-                }}
+                onChange={(e) => handleChange('category', e.target.value)}
                 className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3"
               >
                 <option value="Tools">Tools</option>
@@ -129,10 +129,8 @@ export const ListItemPage = () => {
             Location
             <input
               required
-              value={values.locationText}
-              onChange={(event) => {
-                handleChange('locationText', event.target.value);
-              }}
+              value={values.locationDetails}
+              onChange={(e) => handleChange('locationDetails', e.target.value)}
               className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3"
               placeholder="Near Hyde Park"
             />
@@ -154,11 +152,18 @@ export const ListItemPage = () => {
             </div>
           ) : null}
 
+          {submitError ? (
+            <p className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+              {submitError}
+            </p>
+          ) : null}
+
           <button
             type="submit"
-            className="w-full rounded-2xl bg-emerald-600 px-4 py-3 text-sm font-semibold text-white hover:bg-emerald-700"
+            disabled={isPending}
+            className="w-full rounded-2xl bg-emerald-600 px-4 py-3 text-sm font-semibold text-white hover:bg-emerald-700 disabled:opacity-60"
           >
-            Create listing
+            {isPending ? 'Creating…' : 'Create listing'}
           </button>
         </form>
       </section>

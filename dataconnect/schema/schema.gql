@@ -1,0 +1,41 @@
+type User @table(key: "uid") {
+  uid: String!
+  displayName: String!
+  email: String!
+  createdAt: Timestamp!
+  photoUrl: String
+  location: String
+}
+
+type Item @table {
+  title: String!
+  description: String!
+  createdAt: Timestamp!
+  status: String! # available | lent | unavailable
+  price: Float
+  imageUrl: String
+  locationDetails: String
+  category: String
+  lender: User
+}
+
+type LendingRequest @table {
+  requestedAt: Timestamp!
+  status: String! # pending | accepted | rejected | completed | cancelled
+  borrowerNotes: String!
+  startDate: Date
+  endDate: Date
+  item: Item
+  borrower: User
+  lender: User
+}
+
+type Review @table {
+  rating: Int!
+  comment: String!
+  createdAt: Timestamp!
+  helpful: Boolean
+  reviewer: User
+  reviewedUser: User
+  lendingRequest: LendingRequest
+}

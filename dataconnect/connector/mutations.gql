@@ -1,0 +1,94 @@
+mutation UpsertUser($displayName: String!, $email: String!, $photoUrl: String) @auth(level: USER) {
+  user_upsert(data: {
+    id_expr: "auth.uid"
+    displayName: $displayName
+    email: $email
+    photoUrl: $photoUrl
+    createdAt_expr: "request.time"
+  })
+}
+
+mutation CreateItem(
+  $title: String!
+  $description: String!
+  $price: Float
+  $imageUrl: String
+  $locationDetails: String
+  $category: String
+) @auth(level: USER) {
+  item_insert(data: {
+    title: $title
+    description: $description
+    price: $price
+    imageUrl: $imageUrl
+    locationDetails: $locationDetails
+    category: $category
+    status: "available"
+    createdAt_expr: "request.time"
+    lenderId_expr: "auth.uid"
+  })
+}
+
+mutation UpdateItem(
+  $id: UUID!
+  $title: String!
+  $description: String!
+  $price: Float
+  $imageUrl: String
+  $locationDetails: String
+  $category: String
+) @auth(level: USER) {
+  item_update(id: $id, data: {
+    title: $title
+    description: $description
+    price: $price
+    imageUrl: $imageUrl
+    locationDetails: $locationDetails
+    category: $category
+  })
+}
+
+mutation UpdateItemStatus($id: UUID!, $status: String!) @auth(level: USER) {
+  item_update(id: $id, data: { status: $status })
+}
+
+mutation DeleteItem($id: UUID!) @auth(level: USER) {
+  item_delete(id: $id)
+}
+
+mutation CreateLendingRequest(
+  $itemId: UUID!
+  $borrowerNotes: String!
+  $startDate: Date
+  $endDate: Date
+) @auth(level: USER) {
+  lendingRequest_insert(data: {
+    itemId: $itemId
+    borrowerNotes: $borrowerNotes
+    startDate: $startDate
+    endDate: $endDate
+    status: "pending"
+    requestedAt_expr: "request.time"
+    borrowerId_expr: "auth.uid"
+  })
+}
+
+mutation UpdateLendingRequestStatus($id: UUID!, $status: String!) @auth(level: USER) {
+  lendingRequest_update(id: $id, data: { status: $status })
+}
+
+mutation CreateReview(
+  $reviewedUserId: UUID!
+  $rating: Int!
+  $comment: String!
+  $lendingRequestId: UUID
+) @auth(level: USER) {
+  review_insert(data: {
+    reviewedUserId: $reviewedUserId
+    reviewerId_expr: "auth.uid"
+    rating: $rating
+    comment: $comment
+    lendingRequestId: $lendingRequestId
+    createdAt_expr: "request.time"
+  })
+}

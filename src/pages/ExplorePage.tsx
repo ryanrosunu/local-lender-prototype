@@ -1,34 +1,48 @@
 import { useMemo, useState } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
+import { useListItems } from '../dataconnect/react';
 import { ListingCard } from '../components/ListingCard';
 import { ListingModal } from '../components/ListingModal';
 import { SearchBar } from '../components/SearchBar';
-import { useAppContext } from '../context/AppContext';
 import type { Listing } from '../types/listing';
+import type { ListItemsData } from '../dataconnect';
+
+function mapItem(item: ListItemsData['items'][0]): Listing {
+  return {
+    id: item.id,
+    title: item.title,
+    description: item.description,
+    createdAt: item.createdAt,
+    status: (item.status as Listing['status']) || 'available',
+    price: item.price ?? 0,
+    imageUrl: item.imageUrl ?? '',
+    locationDetails: item.locationDetails ?? '',
+    category: item.category ?? '',
+    lenderId: item.lender?.uid ?? '',
+    lenderName: item.lender?.displayName ?? '',
+  };
+}
 
 export const ExplorePage = () => {
-  const { listings } = useAppContext();
+  const queryClient = useQueryClient();
+  const { data, isLoading } = useListItems();
+  const listings = useMemo(() => (data?.items ?? []).map(mapItem), [data]);
+
   const [searchTerm, setSearchTerm] = useState('');
   const [statusMessage, setStatusMessage] = useState('');
   const [selectedListing, setSelectedListing] = useState<Listing | null>(null);
 
   const filteredListings = useMemo(() => {
-    const normalizedSearch = searchTerm.trim().toLowerCase();
-
-    if (!normalizedSearch) {
-      return listings;
-    }
-
-    return listings.filter((listing) => {
-      const haystack =
-        `${listing.title} ${listing.description} ${listing.locationText} ${listing.category}`.toLowerCase();
-
-      return haystack.includes(normalizedSearch);
-    });
+    const q = searchTerm.trim().toLowerCase();
+    if (!q) return listings;
+    return listings.filter((l) =>
+      `${l.title} ${l.description} ${l.locationDetails} ${l.category}`.toLowerCase().includes(q),
+    );
   }, [listings, searchTerm]);
 
   return (
     <main className="mx-auto max-w-6xl px-4 py-6">
-      <section className="rounded-3xl bg-gradient-to-br from-emerald-100 via-white to-sky-100 p-6 shadow-sm">
+      <section className="rounded-3xl bg-linear-to-br from-emerald-100 via-white to-sky-100 p-6 shadow-sm">
         <p className="text-sm font-semibold uppercase tracking-wide text-emerald-700">
           High-trust community lending
         </p>
@@ -39,7 +53,6 @@ export const ExplorePage = () => {
           LocalLender makes it easy to explore useful items, message owners, send requests,
           and build trust through simple reviews.
         </p>
-
         <div className="mt-6 max-w-2xl">
           <SearchBar value={searchTerm} onChange={setSearchTerm} />
         </div>
@@ -57,7 +70,9 @@ export const ExplorePage = () => {
           <span className="text-sm text-slate-500">{filteredListings.length} shown</span>
         </div>
 
-        {filteredListings.length === 0 ? (
+        {isLoading ? (
+          <p className="mt-4 text-sm text-slate-500">Loading…</p>
+        ) : filteredListings.length === 0 ? (
           <p className="mt-4 rounded-2xl border border-dashed border-slate-300 p-6 text-sm text-slate-600">
             No listings match your search yet.
           </p>
@@ -68,9 +83,7 @@ export const ExplorePage = () => {
             <ListingCard
               key={listing.id}
               listing={listing}
-              onClick={(selectedItem) => {
-                setSelectedListing(selectedItem);
-              }}
+              onClick={setSelectedListing}
             />
           ))}
         </div>
@@ -78,17 +91,14 @@ export const ExplorePage = () => {
 
       <ListingModal
         listing={selectedListing}
-        onClose={() => {
-          setSelectedListing(null);
-        }}
+        onClose={() => setSelectedListing(null)}
         onDirectMessage={(listing) => {
-          setStatusMessage(`Message started with ${listing.ownerName} about ${listing.title}.`);
+          setStatusMessage(`Message started with ${listing.lenderName} about "${listing.title}".`);
           setSelectedListing(null);
         }}
-        onQuickRequest={(listing) => {
-          setStatusMessage(
-            `Request sent for ${listing.title}. ${listing.ownerName} can confirm pickup details next.`,
-          );
+        onRequestSent={(listing) => {
+          queryClient.invalidateQueries();
+          setStatusMessage(`Request sent for "${listing.title}". ${listing.lenderName} will be notified.`);
           setSelectedListing(null);
         }}
       />
