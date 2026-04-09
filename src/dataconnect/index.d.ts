@@ -87,6 +87,8 @@ export interface GetItemData {
     imageUrl?: string | null;
     locationDetails?: string | null;
     category?: string | null;
+    meetupLocationType?: string | null;
+    meetupLocationDetails?: string | null;
     lender?: {
       uid: string;
       displayName: string;
@@ -139,6 +141,8 @@ export interface ListItemsData {
     imageUrl?: string | null;
     locationDetails?: string | null;
     category?: string | null;
+    meetupLocationType?: string | null;
+    meetupLocationDetails?: string | null;
     lender?: {
       uid: string;
       displayName: string;
@@ -158,6 +162,8 @@ export interface ListMyItemsData {
     imageUrl?: string | null;
     locationDetails?: string | null;
     category?: string | null;
+    meetupLocationType?: string | null;
+    meetupLocationDetails?: string | null;
   } & Item_Key)[];
 }
 
@@ -188,6 +194,18 @@ export interface ListOutgoingRequestsData {
       title: string;
     } & Item_Key;
   } & LendingRequest_Key)[];
+}
+
+export interface ListReviewsData {
+  reviews: ({
+    id: UUIDString;
+    rating: number;
+    comment: string;
+    reviewedUser?: {
+      uid: string;
+      displayName: string;
+    } & User_Key;
+  } & Review_Key)[];
 }
 
 export interface Review_Key {
@@ -409,6 +427,18 @@ export const listMyReviewsRef: ListMyReviewsRef;
 
 export function listMyReviews(options?: ExecuteQueryOptions): QueryPromise<ListMyReviewsData, undefined>;
 export function listMyReviews(dc: DataConnect, options?: ExecuteQueryOptions): QueryPromise<ListMyReviewsData, undefined>;
+
+interface ListReviewsRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (): QueryRef<ListReviewsData, undefined>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect): QueryRef<ListReviewsData, undefined>;
+  operationName: string;
+}
+export const listReviewsRef: ListReviewsRef;
+
+export function listReviews(options?: ExecuteQueryOptions): QueryPromise<ListReviewsData, undefined>;
+export function listReviews(dc: DataConnect, options?: ExecuteQueryOptions): QueryPromise<ListReviewsData, undefined>;
 
 interface GetCurrentUserRef {
   /* Allow users to create refs without passing in DataConnect */

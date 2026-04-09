@@ -16,6 +16,7 @@ This README will guide you through the process of using the generated JavaScript
   - [*ListIncomingRequests*](#listincomingrequests)
   - [*ListOutgoingRequests*](#listoutgoingrequests)
   - [*ListMyReviews*](#listmyreviews)
+  - [*ListReviews*](#listreviews)
   - [*GetCurrentUser*](#getcurrentuser)
   - [*FindUserByDisplayName*](#finduserbydisplayname)
 - [**Mutations**](#mutations)
@@ -120,6 +121,8 @@ export interface ListItemsData {
     imageUrl?: string | null;
     locationDetails?: string | null;
     category?: string | null;
+    meetupLocationType?: string | null;
+    meetupLocationDetails?: string | null;
     lender?: {
       uid: string;
       displayName: string;
@@ -232,6 +235,8 @@ export interface GetItemData {
     imageUrl?: string | null;
     locationDetails?: string | null;
     category?: string | null;
+    meetupLocationType?: string | null;
+    meetupLocationDetails?: string | null;
     lender?: {
       uid: string;
       displayName: string;
@@ -350,6 +355,8 @@ export interface ListMyItemsData {
     imageUrl?: string | null;
     locationDetails?: string | null;
     category?: string | null;
+    meetupLocationType?: string | null;
+    meetupLocationDetails?: string | null;
   } & Item_Key)[];
 }
 ```
@@ -699,6 +706,105 @@ const ref = listMyReviewsRef();
 // You can also pass in a `DataConnect` instance to the `QueryRef` function.
 const dataConnect = getDataConnect(connectorConfig);
 const ref = listMyReviewsRef(dataConnect);
+
+// Call `executeQuery()` on the reference to execute the query.
+// You can use the `await` keyword to wait for the promise to resolve.
+const { data } = await executeQuery(ref);
+
+console.log(data.reviews);
+
+// Or, you can use the `Promise` API.
+executeQuery(ref).then((response) => {
+  const data = response.data;
+  console.log(data.reviews);
+});
+```
+
+## ListReviews
+You can execute the `ListReviews` query using the following action shortcut function, or by calling `executeQuery()` after calling the following `QueryRef` function, both of which are defined in [dataconnect/index.d.ts](./index.d.ts):
+```typescript
+listReviews(options?: ExecuteQueryOptions): QueryPromise<ListReviewsData, undefined>;
+
+interface ListReviewsRef {
+  ...
+  /* Allow users to create refs without passing in DataConnect */
+  (): QueryRef<ListReviewsData, undefined>;
+}
+export const listReviewsRef: ListReviewsRef;
+```
+You can also pass in a `DataConnect` instance to the action shortcut function or `QueryRef` function.
+```typescript
+listReviews(dc: DataConnect, options?: ExecuteQueryOptions): QueryPromise<ListReviewsData, undefined>;
+
+interface ListReviewsRef {
+  ...
+  (dc: DataConnect): QueryRef<ListReviewsData, undefined>;
+}
+export const listReviewsRef: ListReviewsRef;
+```
+
+If you need the name of the operation without creating a ref, you can retrieve the operation name by calling the `operationName` property on the listReviewsRef:
+```typescript
+const name = listReviewsRef.operationName;
+console.log(name);
+```
+
+### Variables
+The `ListReviews` query has no variables.
+### Return Type
+Recall that executing the `ListReviews` query returns a `QueryPromise` that resolves to an object with a `data` property.
+
+The `data` property is an object of type `ListReviewsData`, which is defined in [dataconnect/index.d.ts](./index.d.ts). It has the following fields:
+```typescript
+export interface ListReviewsData {
+  reviews: ({
+    id: UUIDString;
+    rating: number;
+    comment: string;
+    reviewedUser?: {
+      uid: string;
+      displayName: string;
+    } & User_Key;
+  } & Review_Key)[];
+}
+```
+### Using `ListReviews`'s action shortcut function
+
+```typescript
+import { getDataConnect } from 'firebase/data-connect';
+import { connectorConfig, listReviews } from '@local-lender/dataconnect';
+
+
+// Call the `listReviews()` function to execute the query.
+// You can use the `await` keyword to wait for the promise to resolve.
+const { data } = await listReviews();
+
+// You can also pass in a `DataConnect` instance to the action shortcut function.
+const dataConnect = getDataConnect(connectorConfig);
+const { data } = await listReviews(dataConnect);
+
+console.log(data.reviews);
+
+// Or, you can use the `Promise` API.
+listReviews().then((response) => {
+  const data = response.data;
+  console.log(data.reviews);
+});
+```
+
+### Using `ListReviews`'s `QueryRef` function
+
+```typescript
+import { getDataConnect, executeQuery } from 'firebase/data-connect';
+import { connectorConfig, listReviewsRef } from '@local-lender/dataconnect';
+
+
+// Call the `listReviewsRef()` function to get a reference to the query.
+const ref = listReviewsRef();
+
+// You can also pass in a `DataConnect` instance to the `QueryRef` function.
+const dataConnect = getDataConnect(connectorConfig);
+const ref = listReviewsRef(dataConnect);
 
 // Call `executeQuery()` on the reference to execute the query.
 // You can use the `await` keyword to wait for the promise to resolve.

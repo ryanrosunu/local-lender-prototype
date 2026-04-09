@@ -16,6 +16,8 @@ type Item @table {
   imageUrl: String
   locationDetails: String
   category: String
+  meetupLocationType: String
+  meetupLocationDetails: String
   lender: User
 }
 

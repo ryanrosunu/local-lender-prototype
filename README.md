@@ -82,6 +82,20 @@ This app uses **Firebase Data Connect** (not Firestore) for all data persistence
 
    The generated SDK lives in `src/dataconnect/` and is committed to the repo. Do not edit it manually.
 
+### Run production environment
+
+1. **TypeScript check + production build**
+
+   ```bash
+   npm run build
+   ```
+
+2. **Deploy schema + connectors + hosting to production**
+
+   ```bash
+   firebase deploy
+   ```
+
 ### Project structure
 
 ```
@@ -135,6 +149,7 @@ connectDataConnectEmulator(dc, 'localhost', 9399);
 | `npm run coverage` | Run tests with coverage |
 | `firebase dataconnect:sdk:generate` | Regenerate TypeScript SDK after schema changes |
 | `firebase deploy --only dataconnect` | Deploy schema + connectors to production |
+| `firebase deploy` | Deploy schema + connectors + hosting to production |
 
 ## License
 

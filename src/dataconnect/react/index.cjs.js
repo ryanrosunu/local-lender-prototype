@@ -1,4 +1,4 @@
-const { upsertUserRef, createItemRef, updateItemRef, updateItemStatusRef, deleteItemRef, createLendingRequestRef, updateLendingRequestStatusRef, createReviewRef, listItemsRef, getItemRef, listMyItemsRef, listIncomingRequestsRef, listOutgoingRequestsRef, listMyReviewsRef, getCurrentUserRef, findUserByDisplayNameRef, connectorConfig } = require('../index.cjs.js');
+const { upsertUserRef, createItemRef, updateItemRef, updateItemStatusRef, deleteItemRef, createLendingRequestRef, updateLendingRequestStatusRef, createReviewRef, listItemsRef, getItemRef, listMyItemsRef, listIncomingRequestsRef, listOutgoingRequestsRef, listMyReviewsRef, listReviewsRef, getCurrentUserRef, findUserByDisplayNameRef, connectorConfig } = require('../index.cjs.js');
 const { validateArgs, CallerSdkTypeEnum } = require('firebase/data-connect');
 const { useDataConnectQuery, useDataConnectMutation, validateReactArgs } = require('@tanstack-query-firebase/react/data-connect');
 
@@ -100,6 +100,12 @@ exports.useListOutgoingRequests = function useListOutgoingRequests(dcOrOptions, 
 exports.useListMyReviews = function useListMyReviews(dcOrOptions, options) {
   const { dc: dcInstance, options: inputOpts } = validateReactArgs(connectorConfig, dcOrOptions, options);
   const ref = listMyReviewsRef(dcInstance);
+  return useDataConnectQuery(ref, inputOpts, CallerSdkTypeEnum.GeneratedReact);
+}
+
+exports.useListReviews = function useListReviews(dcOrOptions, options) {
+  const { dc: dcInstance, options: inputOpts } = validateReactArgs(connectorConfig, dcOrOptions, options);
+  const ref = listReviewsRef(dcInstance);
   return useDataConnectQuery(ref, inputOpts, CallerSdkTypeEnum.GeneratedReact);
 }
 

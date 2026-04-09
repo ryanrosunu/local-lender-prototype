@@ -3,10 +3,12 @@ import { formatCurrency } from '../utilities/formatCurrency';
 
 interface ListingCardProps {
   listing: Listing;
+  ownerRating?: number;
   onClick?: (listing: Listing) => void;
 }
 
-export const ListingCard = ({ listing, onClick }: ListingCardProps) => {
+export const ListingCard = ({ listing, ownerRating, onClick }: ListingCardProps) => {
+  const ratingLabel = typeof ownerRating === 'number' ? `${ownerRating.toFixed(1)} ★` : "No Rating Yet";
   const statusLabel: Record<typeof listing.status, string> = {
     available: 'Available',
     lent: 'Lent out',
@@ -48,7 +50,10 @@ export const ListingCard = ({ listing, onClick }: ListingCardProps) => {
               {listing.category}
             </p>
             <h3 className="mt-1 text-lg font-semibold text-slate-900">{listing.title}</h3>
-            <p className="mt-1 text-sm text-slate-500">Lent by {listing.lenderName}</p>
+            <p className="mt-1 text-sm text-slate-500">
+              Owner: <b>{listing.lenderName}</b>
+              {ratingLabel ? ` (${ratingLabel})` : ''}
+            </p>
           </div>
 
           <span className={`rounded-full px-3 py-1 text-xs font-semibold ${statusStyle[listing.status]}`}>

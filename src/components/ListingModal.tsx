@@ -8,12 +8,13 @@ import { formatCurrency } from '../utilities/formatCurrency';
 
 interface ListingModalProps {
   listing: Listing | null;
+  ownerRating?: number;
   onClose: () => void;
   onRequestSent: (listing: Listing) => void;
   onDirectMessage: (listing: Listing) => void;
 }
 
-export const ListingModal = ({ listing, onClose, onRequestSent, onDirectMessage }: ListingModalProps) => {
+export const ListingModal = ({ listing, ownerRating, onClose, onRequestSent, onDirectMessage }: ListingModalProps) => {
   const { currentUser } = useAppContext();
   const queryClient = useQueryClient();
   const { mutateAsync: createLendingRequest, isPending } = useCreateLendingRequest();
@@ -40,6 +41,8 @@ export const ListingModal = ({ listing, onClose, onRequestSent, onDirectMessage 
     lent: 'bg-sky-100 text-sky-700',
     unavailable: 'bg-amber-100 text-amber-700',
   };
+
+  const ratingLabel = typeof ownerRating === 'number' ? `${ownerRating.toFixed(1)} ★` : "No Rating Yet";
 
   const handleRequestSubmit = async (event: { preventDefault(): void }) => {
     event.preventDefault();
@@ -81,7 +84,10 @@ export const ListingModal = ({ listing, onClose, onRequestSent, onDirectMessage 
             <div>
               <p className="text-xs font-semibold uppercase tracking-wide text-emerald-700">{listing.category}</p>
               <h2 className="mt-1 text-2xl font-bold text-slate-900">{listing.title}</h2>
-              <p className="mt-2 text-sm text-slate-500">Owned by {listing.lenderName}</p>
+              <p className="mt-2 text-sm text-slate-500">
+                Owner: <b>{listing.lenderName}</b>
+                {ratingLabel ? ` (${ratingLabel})` : ''}
+              </p>
             </div>
             <span className={`rounded-full px-3 py-1 text-xs font-semibold ${statusStyle[listing.status]}`}>
               {statusLabel[listing.status]}

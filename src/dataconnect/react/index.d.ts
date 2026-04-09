@@ -1,4 +1,4 @@
-import { UpsertUserData, UpsertUserVariables, CreateItemData, CreateItemVariables, UpdateItemData, UpdateItemVariables, UpdateItemStatusData, UpdateItemStatusVariables, DeleteItemData, DeleteItemVariables, CreateLendingRequestData, CreateLendingRequestVariables, UpdateLendingRequestStatusData, UpdateLendingRequestStatusVariables, CreateReviewData, CreateReviewVariables, ListItemsData, GetItemData, GetItemVariables, ListMyItemsData, ListIncomingRequestsData, ListOutgoingRequestsData, ListMyReviewsData, GetCurrentUserData, FindUserByDisplayNameData, FindUserByDisplayNameVariables } from '../';
+import { UpsertUserData, UpsertUserVariables, CreateItemData, CreateItemVariables, UpdateItemData, UpdateItemVariables, UpdateItemStatusData, UpdateItemStatusVariables, DeleteItemData, DeleteItemVariables, CreateLendingRequestData, CreateLendingRequestVariables, UpdateLendingRequestStatusData, UpdateLendingRequestStatusVariables, CreateReviewData, CreateReviewVariables, ListItemsData, GetItemData, GetItemVariables, ListMyItemsData, ListIncomingRequestsData, ListOutgoingRequestsData, ListMyReviewsData, ListReviewsData, GetCurrentUserData, FindUserByDisplayNameData, FindUserByDisplayNameVariables } from '../';
 import { UseDataConnectQueryResult, useDataConnectQueryOptions, UseDataConnectMutationResult, useDataConnectMutationOptions} from '@tanstack-query-firebase/react/data-connect';
 import { UseQueryResult, UseMutationResult} from '@tanstack/react-query';
 import { DataConnect } from 'firebase/data-connect';
@@ -46,6 +46,9 @@ export function useListOutgoingRequests(dc: DataConnect, options?: useDataConnec
 
 export function useListMyReviews(options?: useDataConnectQueryOptions<ListMyReviewsData>): UseDataConnectQueryResult<ListMyReviewsData, undefined>;
 export function useListMyReviews(dc: DataConnect, options?: useDataConnectQueryOptions<ListMyReviewsData>): UseDataConnectQueryResult<ListMyReviewsData, undefined>;
+
+export function useListReviews(options?: useDataConnectQueryOptions<ListReviewsData>): UseDataConnectQueryResult<ListReviewsData, undefined>;
+export function useListReviews(dc: DataConnect, options?: useDataConnectQueryOptions<ListReviewsData>): UseDataConnectQueryResult<ListReviewsData, undefined>;
 
 export function useGetCurrentUser(options?: useDataConnectQueryOptions<GetCurrentUserData>): UseDataConnectQueryResult<GetCurrentUserData, undefined>;
 export function useGetCurrentUser(dc: DataConnect, options?: useDataConnectQueryOptions<GetCurrentUserData>): UseDataConnectQueryResult<GetCurrentUserData, undefined>;

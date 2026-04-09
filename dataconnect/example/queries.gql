@@ -9,6 +9,8 @@ query ListItems @auth(level: PUBLIC) {
     imageUrl
     locationDetails
     category
+    meetupLocationType
+    meetupLocationDetails
     lender {
       uid
       displayName
@@ -28,6 +30,8 @@ query GetItem($id: UUID!) @auth(level: PUBLIC) {
     imageUrl
     locationDetails
     category
+    meetupLocationType
+    meetupLocationDetails
     lender {
       uid
       displayName
@@ -47,6 +51,8 @@ query ListMyItems @auth(level: USER) {
     imageUrl
     locationDetails
     category
+    meetupLocationType
+    meetupLocationDetails
   }
 }
 
@@ -101,6 +107,18 @@ query ListMyReviews @auth(level: USER) {
     createdAt
     helpful
     reviewer {
+      uid
+      displayName
+    }
+  }
+}
+
+query ListReviews @auth(level: PUBLIC) {
+  reviews(orderBy: [{ createdAt: DESC }]) {
+    id
+    rating
+    comment
+    reviewedUser {
       uid
       displayName
     }
