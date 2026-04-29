@@ -7,132 +7,6 @@ const connectorConfig = {
 };
 exports.connectorConfig = connectorConfig;
 
-const upsertUserRef = (dcOrVars, vars) => {
-  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
-  dcInstance._useGeneratedSdk();
-  return mutationRef(dcInstance, 'UpsertUser', inputVars);
-}
-upsertUserRef.operationName = 'UpsertUser';
-exports.upsertUserRef = upsertUserRef;
-
-exports.upsertUser = function upsertUser(dcOrVars, vars) {
-  const { dc: dcInstance, vars: inputVars } = validateArgs(connectorConfig, dcOrVars, vars, true);
-  return executeMutation(upsertUserRef(dcInstance, inputVars));
-}
-;
-
-const createItemRef = (dcOrVars, vars) => {
-  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
-  dcInstance._useGeneratedSdk();
-  return mutationRef(dcInstance, 'CreateItem', inputVars);
-}
-createItemRef.operationName = 'CreateItem';
-exports.createItemRef = createItemRef;
-
-exports.createItem = function createItem(dcOrVars, vars) {
-  const { dc: dcInstance, vars: inputVars } = validateArgs(connectorConfig, dcOrVars, vars, true);
-  return executeMutation(createItemRef(dcInstance, inputVars));
-}
-;
-
-const updateItemRef = (dcOrVars, vars) => {
-  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
-  dcInstance._useGeneratedSdk();
-  return mutationRef(dcInstance, 'UpdateItem', inputVars);
-}
-updateItemRef.operationName = 'UpdateItem';
-exports.updateItemRef = updateItemRef;
-
-exports.updateItem = function updateItem(dcOrVars, vars) {
-  const { dc: dcInstance, vars: inputVars } = validateArgs(connectorConfig, dcOrVars, vars, true);
-  return executeMutation(updateItemRef(dcInstance, inputVars));
-}
-;
-
-const updateItemStatusRef = (dcOrVars, vars) => {
-  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
-  dcInstance._useGeneratedSdk();
-  return mutationRef(dcInstance, 'UpdateItemStatus', inputVars);
-}
-updateItemStatusRef.operationName = 'UpdateItemStatus';
-exports.updateItemStatusRef = updateItemStatusRef;
-
-exports.updateItemStatus = function updateItemStatus(dcOrVars, vars) {
-  const { dc: dcInstance, vars: inputVars } = validateArgs(connectorConfig, dcOrVars, vars, true);
-  return executeMutation(updateItemStatusRef(dcInstance, inputVars));
-}
-;
-
-const deleteItemRef = (dcOrVars, vars) => {
-  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
-  dcInstance._useGeneratedSdk();
-  return mutationRef(dcInstance, 'DeleteItem', inputVars);
-}
-deleteItemRef.operationName = 'DeleteItem';
-exports.deleteItemRef = deleteItemRef;
-
-exports.deleteItem = function deleteItem(dcOrVars, vars) {
-  const { dc: dcInstance, vars: inputVars } = validateArgs(connectorConfig, dcOrVars, vars, true);
-  return executeMutation(deleteItemRef(dcInstance, inputVars));
-}
-;
-
-const createLendingRequestRef = (dcOrVars, vars) => {
-  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
-  dcInstance._useGeneratedSdk();
-  return mutationRef(dcInstance, 'CreateLendingRequest', inputVars);
-}
-createLendingRequestRef.operationName = 'CreateLendingRequest';
-exports.createLendingRequestRef = createLendingRequestRef;
-
-exports.createLendingRequest = function createLendingRequest(dcOrVars, vars) {
-  const { dc: dcInstance, vars: inputVars } = validateArgs(connectorConfig, dcOrVars, vars, true);
-  return executeMutation(createLendingRequestRef(dcInstance, inputVars));
-}
-;
-
-const updateLendingRequestStatusRef = (dcOrVars, vars) => {
-  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
-  dcInstance._useGeneratedSdk();
-  return mutationRef(dcInstance, 'UpdateLendingRequestStatus', inputVars);
-}
-updateLendingRequestStatusRef.operationName = 'UpdateLendingRequestStatus';
-exports.updateLendingRequestStatusRef = updateLendingRequestStatusRef;
-
-exports.updateLendingRequestStatus = function updateLendingRequestStatus(dcOrVars, vars) {
-  const { dc: dcInstance, vars: inputVars } = validateArgs(connectorConfig, dcOrVars, vars, true);
-  return executeMutation(updateLendingRequestStatusRef(dcInstance, inputVars));
-}
-;
-
-const updateUserRatingRef = (dcOrVars, vars) => {
-  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
-  dcInstance._useGeneratedSdk();
-  return mutationRef(dcInstance, 'UpdateUserRating', inputVars);
-}
-updateUserRatingRef.operationName = 'UpdateUserRating';
-exports.updateUserRatingRef = updateUserRatingRef;
-
-exports.updateUserRating = function updateUserRating(dcOrVars, vars) {
-  const { dc: dcInstance, vars: inputVars } = validateArgs(connectorConfig, dcOrVars, vars, true);
-  return executeMutation(updateUserRatingRef(dcInstance, inputVars));
-}
-;
-
-const createReviewRef = (dcOrVars, vars) => {
-  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
-  dcInstance._useGeneratedSdk();
-  return mutationRef(dcInstance, 'CreateReview', inputVars);
-}
-createReviewRef.operationName = 'CreateReview';
-exports.createReviewRef = createReviewRef;
-
-exports.createReview = function createReview(dcOrVars, vars) {
-  const { dc: dcInstance, vars: inputVars } = validateArgs(connectorConfig, dcOrVars, vars, true);
-  return executeMutation(createReviewRef(dcInstance, inputVars));
-}
-;
-
 const listItemsRef = (dc) => {
   const { dc: dcInstance} = validateArgs(connectorConfig, dc, undefined);
   dcInstance._useGeneratedSdk();
@@ -265,5 +139,131 @@ exports.listReviews = function listReviews(dcOrOptions, options) {
   
   const { dc: dcInstance, vars: inputVars, options: inputOpts } = validateArgsWithOptions(connectorConfig, dcOrOptions, options, undefined,false, false);
   return executeQuery(listReviewsRef(dcInstance, inputVars), inputOpts && inputOpts.fetchPolicy);
+}
+;
+
+const upsertUserRef = (dcOrVars, vars) => {
+  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
+  dcInstance._useGeneratedSdk();
+  return mutationRef(dcInstance, 'UpsertUser', inputVars);
+}
+upsertUserRef.operationName = 'UpsertUser';
+exports.upsertUserRef = upsertUserRef;
+
+exports.upsertUser = function upsertUser(dcOrVars, vars) {
+  const { dc: dcInstance, vars: inputVars } = validateArgs(connectorConfig, dcOrVars, vars, true);
+  return executeMutation(upsertUserRef(dcInstance, inputVars));
+}
+;
+
+const createItemRef = (dcOrVars, vars) => {
+  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
+  dcInstance._useGeneratedSdk();
+  return mutationRef(dcInstance, 'CreateItem', inputVars);
+}
+createItemRef.operationName = 'CreateItem';
+exports.createItemRef = createItemRef;
+
+exports.createItem = function createItem(dcOrVars, vars) {
+  const { dc: dcInstance, vars: inputVars } = validateArgs(connectorConfig, dcOrVars, vars, true);
+  return executeMutation(createItemRef(dcInstance, inputVars));
+}
+;
+
+const updateItemRef = (dcOrVars, vars) => {
+  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
+  dcInstance._useGeneratedSdk();
+  return mutationRef(dcInstance, 'UpdateItem', inputVars);
+}
+updateItemRef.operationName = 'UpdateItem';
+exports.updateItemRef = updateItemRef;
+
+exports.updateItem = function updateItem(dcOrVars, vars) {
+  const { dc: dcInstance, vars: inputVars } = validateArgs(connectorConfig, dcOrVars, vars, true);
+  return executeMutation(updateItemRef(dcInstance, inputVars));
+}
+;
+
+const updateItemStatusRef = (dcOrVars, vars) => {
+  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
+  dcInstance._useGeneratedSdk();
+  return mutationRef(dcInstance, 'UpdateItemStatus', inputVars);
+}
+updateItemStatusRef.operationName = 'UpdateItemStatus';
+exports.updateItemStatusRef = updateItemStatusRef;
+
+exports.updateItemStatus = function updateItemStatus(dcOrVars, vars) {
+  const { dc: dcInstance, vars: inputVars } = validateArgs(connectorConfig, dcOrVars, vars, true);
+  return executeMutation(updateItemStatusRef(dcInstance, inputVars));
+}
+;
+
+const deleteItemRef = (dcOrVars, vars) => {
+  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
+  dcInstance._useGeneratedSdk();
+  return mutationRef(dcInstance, 'DeleteItem', inputVars);
+}
+deleteItemRef.operationName = 'DeleteItem';
+exports.deleteItemRef = deleteItemRef;
+
+exports.deleteItem = function deleteItem(dcOrVars, vars) {
+  const { dc: dcInstance, vars: inputVars } = validateArgs(connectorConfig, dcOrVars, vars, true);
+  return executeMutation(deleteItemRef(dcInstance, inputVars));
+}
+;
+
+const createLendingRequestRef = (dcOrVars, vars) => {
+  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
+  dcInstance._useGeneratedSdk();
+  return mutationRef(dcInstance, 'CreateLendingRequest', inputVars);
+}
+createLendingRequestRef.operationName = 'CreateLendingRequest';
+exports.createLendingRequestRef = createLendingRequestRef;
+
+exports.createLendingRequest = function createLendingRequest(dcOrVars, vars) {
+  const { dc: dcInstance, vars: inputVars } = validateArgs(connectorConfig, dcOrVars, vars, true);
+  return executeMutation(createLendingRequestRef(dcInstance, inputVars));
+}
+;
+
+const updateLendingRequestStatusRef = (dcOrVars, vars) => {
+  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
+  dcInstance._useGeneratedSdk();
+  return mutationRef(dcInstance, 'UpdateLendingRequestStatus', inputVars);
+}
+updateLendingRequestStatusRef.operationName = 'UpdateLendingRequestStatus';
+exports.updateLendingRequestStatusRef = updateLendingRequestStatusRef;
+
+exports.updateLendingRequestStatus = function updateLendingRequestStatus(dcOrVars, vars) {
+  const { dc: dcInstance, vars: inputVars } = validateArgs(connectorConfig, dcOrVars, vars, true);
+  return executeMutation(updateLendingRequestStatusRef(dcInstance, inputVars));
+}
+;
+
+const updateUserRatingRef = (dcOrVars, vars) => {
+  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
+  dcInstance._useGeneratedSdk();
+  return mutationRef(dcInstance, 'UpdateUserRating', inputVars);
+}
+updateUserRatingRef.operationName = 'UpdateUserRating';
+exports.updateUserRatingRef = updateUserRatingRef;
+
+exports.updateUserRating = function updateUserRating(dcOrVars, vars) {
+  const { dc: dcInstance, vars: inputVars } = validateArgs(connectorConfig, dcOrVars, vars, true);
+  return executeMutation(updateUserRatingRef(dcInstance, inputVars));
+}
+;
+
+const createReviewRef = (dcOrVars, vars) => {
+  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
+  dcInstance._useGeneratedSdk();
+  return mutationRef(dcInstance, 'CreateReview', inputVars);
+}
+createReviewRef.operationName = 'CreateReview';
+exports.createReviewRef = createReviewRef;
+
+exports.createReview = function createReview(dcOrVars, vars) {
+  const { dc: dcInstance, vars: inputVars } = validateArgs(connectorConfig, dcOrVars, vars, true);
+  return executeMutation(createReviewRef(dcInstance, inputVars));
 }
 ;

@@ -133,6 +133,8 @@ export interface ListIncomingRequestsData {
       borrower?: {
         uid: string;
         displayName: string;
+        averageRating?: number | null;
+        reviewCount?: number | null;
       } & User_Key;
   } & LendingRequest_Key)[];
 }
@@ -230,6 +232,8 @@ export interface ListOutgoingRequestsData {
       lender?: {
         uid: string;
         displayName: string;
+        averageRating?: number | null;
+        reviewCount?: number | null;
       } & User_Key;
   } & LendingRequest_Key)[];
 }
@@ -310,114 +314,6 @@ export interface User_Key {
   uid: string;
   __typename?: 'User_Key';
 }
-
-interface UpsertUserRef {
-  /* Allow users to create refs without passing in DataConnect */
-  (vars: UpsertUserVariables): MutationRef<UpsertUserData, UpsertUserVariables>;
-  /* Allow users to pass in custom DataConnect instances */
-  (dc: DataConnect, vars: UpsertUserVariables): MutationRef<UpsertUserData, UpsertUserVariables>;
-  operationName: string;
-}
-export const upsertUserRef: UpsertUserRef;
-
-export function upsertUser(vars: UpsertUserVariables): MutationPromise<UpsertUserData, UpsertUserVariables>;
-export function upsertUser(dc: DataConnect, vars: UpsertUserVariables): MutationPromise<UpsertUserData, UpsertUserVariables>;
-
-interface CreateItemRef {
-  /* Allow users to create refs without passing in DataConnect */
-  (vars: CreateItemVariables): MutationRef<CreateItemData, CreateItemVariables>;
-  /* Allow users to pass in custom DataConnect instances */
-  (dc: DataConnect, vars: CreateItemVariables): MutationRef<CreateItemData, CreateItemVariables>;
-  operationName: string;
-}
-export const createItemRef: CreateItemRef;
-
-export function createItem(vars: CreateItemVariables): MutationPromise<CreateItemData, CreateItemVariables>;
-export function createItem(dc: DataConnect, vars: CreateItemVariables): MutationPromise<CreateItemData, CreateItemVariables>;
-
-interface UpdateItemRef {
-  /* Allow users to create refs without passing in DataConnect */
-  (vars: UpdateItemVariables): MutationRef<UpdateItemData, UpdateItemVariables>;
-  /* Allow users to pass in custom DataConnect instances */
-  (dc: DataConnect, vars: UpdateItemVariables): MutationRef<UpdateItemData, UpdateItemVariables>;
-  operationName: string;
-}
-export const updateItemRef: UpdateItemRef;
-
-export function updateItem(vars: UpdateItemVariables): MutationPromise<UpdateItemData, UpdateItemVariables>;
-export function updateItem(dc: DataConnect, vars: UpdateItemVariables): MutationPromise<UpdateItemData, UpdateItemVariables>;
-
-interface UpdateItemStatusRef {
-  /* Allow users to create refs without passing in DataConnect */
-  (vars: UpdateItemStatusVariables): MutationRef<UpdateItemStatusData, UpdateItemStatusVariables>;
-  /* Allow users to pass in custom DataConnect instances */
-  (dc: DataConnect, vars: UpdateItemStatusVariables): MutationRef<UpdateItemStatusData, UpdateItemStatusVariables>;
-  operationName: string;
-}
-export const updateItemStatusRef: UpdateItemStatusRef;
-
-export function updateItemStatus(vars: UpdateItemStatusVariables): MutationPromise<UpdateItemStatusData, UpdateItemStatusVariables>;
-export function updateItemStatus(dc: DataConnect, vars: UpdateItemStatusVariables): MutationPromise<UpdateItemStatusData, UpdateItemStatusVariables>;
-
-interface DeleteItemRef {
-  /* Allow users to create refs without passing in DataConnect */
-  (vars: DeleteItemVariables): MutationRef<DeleteItemData, DeleteItemVariables>;
-  /* Allow users to pass in custom DataConnect instances */
-  (dc: DataConnect, vars: DeleteItemVariables): MutationRef<DeleteItemData, DeleteItemVariables>;
-  operationName: string;
-}
-export const deleteItemRef: DeleteItemRef;
-
-export function deleteItem(vars: DeleteItemVariables): MutationPromise<DeleteItemData, DeleteItemVariables>;
-export function deleteItem(dc: DataConnect, vars: DeleteItemVariables): MutationPromise<DeleteItemData, DeleteItemVariables>;
-
-interface CreateLendingRequestRef {
-  /* Allow users to create refs without passing in DataConnect */
-  (vars: CreateLendingRequestVariables): MutationRef<CreateLendingRequestData, CreateLendingRequestVariables>;
-  /* Allow users to pass in custom DataConnect instances */
-  (dc: DataConnect, vars: CreateLendingRequestVariables): MutationRef<CreateLendingRequestData, CreateLendingRequestVariables>;
-  operationName: string;
-}
-export const createLendingRequestRef: CreateLendingRequestRef;
-
-export function createLendingRequest(vars: CreateLendingRequestVariables): MutationPromise<CreateLendingRequestData, CreateLendingRequestVariables>;
-export function createLendingRequest(dc: DataConnect, vars: CreateLendingRequestVariables): MutationPromise<CreateLendingRequestData, CreateLendingRequestVariables>;
-
-interface UpdateLendingRequestStatusRef {
-  /* Allow users to create refs without passing in DataConnect */
-  (vars: UpdateLendingRequestStatusVariables): MutationRef<UpdateLendingRequestStatusData, UpdateLendingRequestStatusVariables>;
-  /* Allow users to pass in custom DataConnect instances */
-  (dc: DataConnect, vars: UpdateLendingRequestStatusVariables): MutationRef<UpdateLendingRequestStatusData, UpdateLendingRequestStatusVariables>;
-  operationName: string;
-}
-export const updateLendingRequestStatusRef: UpdateLendingRequestStatusRef;
-
-export function updateLendingRequestStatus(vars: UpdateLendingRequestStatusVariables): MutationPromise<UpdateLendingRequestStatusData, UpdateLendingRequestStatusVariables>;
-export function updateLendingRequestStatus(dc: DataConnect, vars: UpdateLendingRequestStatusVariables): MutationPromise<UpdateLendingRequestStatusData, UpdateLendingRequestStatusVariables>;
-
-interface UpdateUserRatingRef {
-  /* Allow users to create refs without passing in DataConnect */
-  (vars: UpdateUserRatingVariables): MutationRef<UpdateUserRatingData, UpdateUserRatingVariables>;
-  /* Allow users to pass in custom DataConnect instances */
-  (dc: DataConnect, vars: UpdateUserRatingVariables): MutationRef<UpdateUserRatingData, UpdateUserRatingVariables>;
-  operationName: string;
-}
-export const updateUserRatingRef: UpdateUserRatingRef;
-
-export function updateUserRating(vars: UpdateUserRatingVariables): MutationPromise<UpdateUserRatingData, UpdateUserRatingVariables>;
-export function updateUserRating(dc: DataConnect, vars: UpdateUserRatingVariables): MutationPromise<UpdateUserRatingData, UpdateUserRatingVariables>;
-
-interface CreateReviewRef {
-  /* Allow users to create refs without passing in DataConnect */
-  (vars: CreateReviewVariables): MutationRef<CreateReviewData, CreateReviewVariables>;
-  /* Allow users to pass in custom DataConnect instances */
-  (dc: DataConnect, vars: CreateReviewVariables): MutationRef<CreateReviewData, CreateReviewVariables>;
-  operationName: string;
-}
-export const createReviewRef: CreateReviewRef;
-
-export function createReview(vars: CreateReviewVariables): MutationPromise<CreateReviewData, CreateReviewVariables>;
-export function createReview(dc: DataConnect, vars: CreateReviewVariables): MutationPromise<CreateReviewData, CreateReviewVariables>;
 
 interface ListItemsRef {
   /* Allow users to create refs without passing in DataConnect */
@@ -526,4 +422,112 @@ export const listReviewsRef: ListReviewsRef;
 
 export function listReviews(options?: ExecuteQueryOptions): QueryPromise<ListReviewsData, undefined>;
 export function listReviews(dc: DataConnect, options?: ExecuteQueryOptions): QueryPromise<ListReviewsData, undefined>;
+
+interface UpsertUserRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (vars: UpsertUserVariables): MutationRef<UpsertUserData, UpsertUserVariables>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect, vars: UpsertUserVariables): MutationRef<UpsertUserData, UpsertUserVariables>;
+  operationName: string;
+}
+export const upsertUserRef: UpsertUserRef;
+
+export function upsertUser(vars: UpsertUserVariables): MutationPromise<UpsertUserData, UpsertUserVariables>;
+export function upsertUser(dc: DataConnect, vars: UpsertUserVariables): MutationPromise<UpsertUserData, UpsertUserVariables>;
+
+interface CreateItemRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (vars: CreateItemVariables): MutationRef<CreateItemData, CreateItemVariables>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect, vars: CreateItemVariables): MutationRef<CreateItemData, CreateItemVariables>;
+  operationName: string;
+}
+export const createItemRef: CreateItemRef;
+
+export function createItem(vars: CreateItemVariables): MutationPromise<CreateItemData, CreateItemVariables>;
+export function createItem(dc: DataConnect, vars: CreateItemVariables): MutationPromise<CreateItemData, CreateItemVariables>;
+
+interface UpdateItemRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (vars: UpdateItemVariables): MutationRef<UpdateItemData, UpdateItemVariables>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect, vars: UpdateItemVariables): MutationRef<UpdateItemData, UpdateItemVariables>;
+  operationName: string;
+}
+export const updateItemRef: UpdateItemRef;
+
+export function updateItem(vars: UpdateItemVariables): MutationPromise<UpdateItemData, UpdateItemVariables>;
+export function updateItem(dc: DataConnect, vars: UpdateItemVariables): MutationPromise<UpdateItemData, UpdateItemVariables>;
+
+interface UpdateItemStatusRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (vars: UpdateItemStatusVariables): MutationRef<UpdateItemStatusData, UpdateItemStatusVariables>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect, vars: UpdateItemStatusVariables): MutationRef<UpdateItemStatusData, UpdateItemStatusVariables>;
+  operationName: string;
+}
+export const updateItemStatusRef: UpdateItemStatusRef;
+
+export function updateItemStatus(vars: UpdateItemStatusVariables): MutationPromise<UpdateItemStatusData, UpdateItemStatusVariables>;
+export function updateItemStatus(dc: DataConnect, vars: UpdateItemStatusVariables): MutationPromise<UpdateItemStatusData, UpdateItemStatusVariables>;
+
+interface DeleteItemRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (vars: DeleteItemVariables): MutationRef<DeleteItemData, DeleteItemVariables>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect, vars: DeleteItemVariables): MutationRef<DeleteItemData, DeleteItemVariables>;
+  operationName: string;
+}
+export const deleteItemRef: DeleteItemRef;
+
+export function deleteItem(vars: DeleteItemVariables): MutationPromise<DeleteItemData, DeleteItemVariables>;
+export function deleteItem(dc: DataConnect, vars: DeleteItemVariables): MutationPromise<DeleteItemData, DeleteItemVariables>;
+
+interface CreateLendingRequestRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (vars: CreateLendingRequestVariables): MutationRef<CreateLendingRequestData, CreateLendingRequestVariables>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect, vars: CreateLendingRequestVariables): MutationRef<CreateLendingRequestData, CreateLendingRequestVariables>;
+  operationName: string;
+}
+export const createLendingRequestRef: CreateLendingRequestRef;
+
+export function createLendingRequest(vars: CreateLendingRequestVariables): MutationPromise<CreateLendingRequestData, CreateLendingRequestVariables>;
+export function createLendingRequest(dc: DataConnect, vars: CreateLendingRequestVariables): MutationPromise<CreateLendingRequestData, CreateLendingRequestVariables>;
+
+interface UpdateLendingRequestStatusRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (vars: UpdateLendingRequestStatusVariables): MutationRef<UpdateLendingRequestStatusData, UpdateLendingRequestStatusVariables>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect, vars: UpdateLendingRequestStatusVariables): MutationRef<UpdateLendingRequestStatusData, UpdateLendingRequestStatusVariables>;
+  operationName: string;
+}
+export const updateLendingRequestStatusRef: UpdateLendingRequestStatusRef;
+
+export function updateLendingRequestStatus(vars: UpdateLendingRequestStatusVariables): MutationPromise<UpdateLendingRequestStatusData, UpdateLendingRequestStatusVariables>;
+export function updateLendingRequestStatus(dc: DataConnect, vars: UpdateLendingRequestStatusVariables): MutationPromise<UpdateLendingRequestStatusData, UpdateLendingRequestStatusVariables>;
+
+interface UpdateUserRatingRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (vars: UpdateUserRatingVariables): MutationRef<UpdateUserRatingData, UpdateUserRatingVariables>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect, vars: UpdateUserRatingVariables): MutationRef<UpdateUserRatingData, UpdateUserRatingVariables>;
+  operationName: string;
+}
+export const updateUserRatingRef: UpdateUserRatingRef;
+
+export function updateUserRating(vars: UpdateUserRatingVariables): MutationPromise<UpdateUserRatingData, UpdateUserRatingVariables>;
+export function updateUserRating(dc: DataConnect, vars: UpdateUserRatingVariables): MutationPromise<UpdateUserRatingData, UpdateUserRatingVariables>;
+
+interface CreateReviewRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (vars: CreateReviewVariables): MutationRef<CreateReviewData, CreateReviewVariables>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect, vars: CreateReviewVariables): MutationRef<CreateReviewData, CreateReviewVariables>;
+  operationName: string;
+}
+export const createReviewRef: CreateReviewRef;
+
+export function createReview(vars: CreateReviewVariables): MutationPromise<CreateReviewData, CreateReviewVariables>;
+export function createReview(dc: DataConnect, vars: CreateReviewVariables): MutationPromise<CreateReviewData, CreateReviewVariables>;
 

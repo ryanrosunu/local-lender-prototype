@@ -432,6 +432,8 @@ export interface ListIncomingRequestsData {
       borrower?: {
         uid: string;
         displayName: string;
+        averageRating?: number | null;
+        reviewCount?: number | null;
       } & User_Key;
   } & LendingRequest_Key)[];
 }
@@ -521,6 +523,8 @@ export interface ListOutgoingRequestsData {
       lender?: {
         uid: string;
         displayName: string;
+        averageRating?: number | null;
+        reviewCount?: number | null;
       } & User_Key;
   } & LendingRequest_Key)[];
 }

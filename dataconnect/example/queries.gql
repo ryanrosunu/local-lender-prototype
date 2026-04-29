@@ -78,6 +78,8 @@ query ListIncomingRequests @auth(level: USER) {
     borrower {
       uid
       displayName
+      averageRating
+      reviewCount
     }
   }
 }
@@ -105,6 +107,8 @@ query ListOutgoingRequests @auth(level: USER) {
     lender {
       uid
       displayName
+      averageRating
+      reviewCount
     }
   }
 }

@@ -11,6 +11,7 @@ import type {
 import { useAppContext } from '../context/AppContext';
 import { OwnerProfileModal } from '../components/OwnerProfileModal';
 import { ListingModal } from '../components/ListingModal';
+import { ReviewForm } from '../components/ReviewForm';
 import type { Listing } from '../types/listing';
 
 type IncomingRequest = ListIncomingRequestsData['lendingRequests'][0];
@@ -222,6 +223,15 @@ export const RequestsPage = () => {
                     </button>
                   </div>
                 ) : null}
+
+                {req.status === 'completed' && req.borrower?.uid ? (
+                  <ReviewForm
+                    revieweeUid={req.borrower.uid}
+                    revieweeName={req.borrower.displayName}
+                    revieweeRating={req.borrower.averageRating}
+                    revieweeReviewCount={req.borrower.reviewCount}
+                  />
+                ) : null}
               </article>
             ))}
           </div>
@@ -313,6 +323,15 @@ export const RequestsPage = () => {
                       Cancel request
                     </button>
                   </div>
+                ) : null}
+
+                {req.status === 'completed' && req.lender?.uid ? (
+                  <ReviewForm
+                    revieweeUid={req.lender.uid}
+                    revieweeName={req.lender.displayName}
+                    revieweeRating={req.lender.averageRating}
+                    revieweeReviewCount={req.lender.reviewCount}
+                  />
                 ) : null}
               </article>
             ))}
